@@ -25,7 +25,7 @@
       const coords = `${lat}, ${lon}`;
       document.getElementById("location").innerHTML = `Coordinates: ${coords}`;
       
-      // Copy to clipboard with a fallback for iOS
+      // Display prompt for iPhone users to manually copy
       copyToClipboard(coords);
     }
 
@@ -34,27 +34,15 @@
         navigator.clipboard.writeText(text).then(() => {
           alert('Coordinates copied to clipboard!');
         }).catch(err => {
-          fallbackCopyTextToClipboard(text);
+          showManualCopyPrompt(text);
         });
       } else {
-        fallbackCopyTextToClipboard(text);
+        showManualCopyPrompt(text);
       }
     }
 
-    function fallbackCopyTextToClipboard(text) {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      textArea.style.position = "fixed"; // Avoid scrolling to bottom
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        alert('Coordinates copied to clipboard!');
-      } catch (err) {
-        console.error('Fallback: Could not copy text', err);
-      }
-      document.body.removeChild(textArea);
+    function showManualCopyPrompt(text) {
+      prompt("Copy the coordinates:", text);
     }
 
     function showError(error) {
