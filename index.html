@@ -25,10 +25,36 @@
       const coords = `${lat}, ${lon}`;
       document.getElementById("location").innerHTML = `Coordinates: ${coords}`;
       
-      // Copy to clipboard
-      navigator.clipboard.writeText(coords).then(() => {
+      // Copy to clipboard with a fallback for iOS
+      copyToClipboard(coords);
+    }
+
+    function copyToClipboard(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          alert('Coordinates copied to clipboard!');
+        }).catch(err => {
+          fallbackCopyTextToClipboard(text);
+        });
+      } else {
+        fallbackCopyTextToClipboard(text);
+      }
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed"; // Avoid scrolling to bottom
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
         alert('Coordinates copied to clipboard!');
-      });
+      } catch (err) {
+        console.error('Fallback: Could not copy text', err);
+      }
+      document.body.removeChild(textArea);
     }
 
     function showError(error) {
