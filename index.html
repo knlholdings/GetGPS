@@ -4,11 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Get My GPS Coordinates</title>
+  <style>
+    body, html {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; /* Full viewport height */
+      margin: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #content {
+      max-width: 90%;
+    }
+  </style>
 </head>
 <body>
-  <h2>Capture GPS Coordinates</h2>
-  <button onclick="getLocation()">Get My Location</button>
-  <p id="location">Your coordinates will appear here.</p>
+  <div id="content">
+    <h2>Capture GPS Coordinates</h2>
+    <button onclick="getLocation()">Get My Location</button>
+    <p id="location">Your coordinates will appear here.</p>
+  </div>
 
   <script>
     let coordinatesOnly = ""; // Separate variable to hold only coordinates
