@@ -23,7 +23,7 @@
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
       const coords = `${lat}, ${lon}`;
-      document.getElementById("location").innerHTML = `${coords}`;
+      document.getElementById("location").innerHTML = coords;
       
       // Copy only the coordinates
       copyToClipboard(coords);
