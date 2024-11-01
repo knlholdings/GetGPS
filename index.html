@@ -34,15 +34,8 @@
       cursor: pointer;
       margin-top: 10px;
     }
-    #copyButton {
+    #copyButton, #viewMapButton {
       display: none;
-    }
-    #searchFrame {
-      width: 100%;
-      max-width: 600px;
-      height: 400px;
-      border: 1px solid #ddd;
-      display: none; /* Hide initially */
     }
   </style>
 </head>
@@ -53,10 +46,8 @@
     <button onclick="getLocation()">Get My Location</button>
     <p id="location">Your coordinates will appear here.</p>
     <button id="copyButton" onclick="copyToClipboard()">Copy Coordinates</button>
+    <button id="viewMapButton" onclick="viewOnGoogleMaps()">View on Google Maps</button>
   </div>
-
-  <!-- Iframe to show Google search results -->
-  <iframe id="searchFrame" src="" title="Google Search Results"></iframe>
 
   <script>
     let coordinatesOnly = ""; // Variable to hold only coordinates
@@ -75,9 +66,9 @@
       coordinatesOnly = `${lat}, ${lon}`;
       document.getElementById("location").innerHTML = `Coordinates: ${coordinatesOnly}`;
       
-      // Show the copy button and iframe now that we have coordinates
+      // Show the copy button and view map button now that we have coordinates
       document.getElementById("copyButton").style.display = "inline-block";
-      updateSearchFrame(coordinatesOnly);
+      document.getElementById("viewMapButton").style.display = "inline-block";
     }
 
     function copyToClipboard() {
@@ -92,19 +83,17 @@
       }
     }
 
+    function viewOnGoogleMaps() {
+      const searchUrl = `https://www.google.com/maps?q=${encodeURIComponent(coordinatesOnly)}`;
+      window.open(searchUrl, '_blank'); // Open in a new tab
+    }
+
     function showManualCopyPrompt(text) {
       prompt("Copy the coordinates:", text);
     }
 
     function showError(error) {
       document.getElementById("location").innerHTML = `Error: ${error.message}`;
-    }
-
-    function updateSearchFrame(coords) {
-      const searchUrl = `https://www.google.com/maps?q=${encodeURIComponent(coords)}`;
-      const searchFrame = document.getElementById("searchFrame");
-      searchFrame.src = searchUrl;
-      searchFrame.style.display = "block"; // Show iframe with search results
     }
   </script>
 </body>
