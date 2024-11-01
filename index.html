@@ -17,17 +17,28 @@
     #content {
       max-width: 90%;
     }
+    #logo {
+      display: block;
+      margin: 0 auto 20px; /* Center the image and add bottom margin */
+      max-width: 100%; /* Ensure responsiveness */
+      height: auto; /* Maintain aspect ratio */
+    }
+    #copyButton {
+      display: none; /* Hide the copy button initially */
+    }
   </style>
 </head>
 <body>
   <div id="content">
+    <img id="logo" src="imgs/logo.png" alt="Company Logo">
     <h2>Capture GPS Coordinates</h2>
     <button onclick="getLocation()">Get My Location</button>
     <p id="location">Your coordinates will appear here.</p>
+    <button id="copyButton" onclick="copyToClipboard()">Copy Coordinates</button>
   </div>
 
   <script>
-    let coordinatesOnly = ""; // Separate variable to hold only coordinates
+    let coordinatesOnly = ""; // Variable to hold only coordinates
 
     function getLocation() {
       if (navigator.geolocation) {
@@ -43,19 +54,19 @@
       coordinatesOnly = `${lat}, ${lon}`; // Update variable with coordinates only
       document.getElementById("location").innerHTML = `Coordinates: ${coordinatesOnly}`;
       
-      // Copy only the coordinates
-      copyToClipboard(coordinatesOnly);
+      // Show the copy button now that we have coordinates
+      document.getElementById("copyButton").style.display = "inline-block";
     }
 
-    function copyToClipboard(text) {
+    function copyToClipboard() {
       if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
+        navigator.clipboard.writeText(coordinatesOnly).then(() => {
           alert('Coordinates copied to clipboard!');
         }).catch(err => {
-          showManualCopyPrompt(text);
+          showManualCopyPrompt(coordinatesOnly);
         });
       } else {
-        showManualCopyPrompt(text);
+        showManualCopyPrompt(coordinatesOnly);
       }
     }
 
